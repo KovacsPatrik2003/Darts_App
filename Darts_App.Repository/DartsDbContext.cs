@@ -22,20 +22,21 @@ namespace Darts_App.Repository
         {
             if (!optionsBuilder.IsConfigured)
             {
-                string conn = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\DartsDatabase.mdf;Integrated Security=True";
-                optionsBuilder.UseSqlServer(conn).UseLazyLoadingProxies();
+                //string conn = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\DartsDatabase.mdf;Integrated Security=True";
+                //optionsBuilder.UseSqlServer(conn).UseLazyLoadingProxies();
+                optionsBuilder
+                    .UseLazyLoadingProxies()
+                    .UseInMemoryDatabase("Darts");
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Player>(entity =>
-            entity.HasMany<Game>()
-                  .WithMany(games => games.Players)
-            );
-            modelBuilder.Entity<Game>(entity =>
-            entity.HasMany<Player>()
-                  .WithMany(players => players.Games)
-            );
+            modelBuilder.Entity<Player>()
+                        .HasMany(p => p.Games)
+                        .WithOne(g => g.Player)
+                        .HasForeignKey(g => g.PlayerId)
+                        .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

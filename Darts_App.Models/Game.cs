@@ -14,11 +14,14 @@ namespace Darts_App.Models
         [Required]
         public int Id { get; set; }
         [NotMapped]
-        public virtual List<Player> Players { get; set; }
-        public virtual Player Winner { get; set; }
-        public int WhoWon { get; set; }
+        public virtual Player Player { get; set; }
+        [NotMapped]
+        public List<Player> GuestPlayers { get; set; }
+        public int WinnerId { get; set; }
         public int Sets { get; set; }
         public int Legs { get; set; }
+        [ForeignKey(nameof(Player))]
+        public int PlayerId { get; set; }
 
     }
 }

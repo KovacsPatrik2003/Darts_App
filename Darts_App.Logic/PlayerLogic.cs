@@ -12,8 +12,8 @@ namespace Darts_App.Logic
 {
     public class PlayerLogic : IPlayerLogic
     {
-        Repository<Player> repo;
-        public PlayerLogic(Repository<Player> repo)
+        IRepository<Player> repo;
+        public PlayerLogic(IRepository<Player> repo)
         {
             this.repo = repo;
         }

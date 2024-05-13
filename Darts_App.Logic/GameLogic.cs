@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Darts_App.Logic
 {
-    public class GameLogic
+    public class GameLogic : IGameLogic
     {
-        Repository<Game> repo;
-        public GameLogic(Repository<Game> repo)
+        IRepository<Game> repo;
+        public GameLogic(IRepository<Game> repo)
         {
             this.repo = repo;
         }
@@ -35,6 +35,11 @@ namespace Darts_App.Logic
         public IQueryable<Game> ReadAll()
         {
             return this.repo.ReadAll();
+        }
+
+        public void OngoingGame(int id)
+        {
+
         }
     }
 }

@@ -5,4 +5,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Darts_App.Logic\Darts_App.Logic.csproj" />
+    <ProjectReference Include="..\Darts_App.Repository\Darts_App.Repository.csproj" />
+  </ItemGroup>
+
 </Project>
