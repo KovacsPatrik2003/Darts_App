@@ -8,22 +8,17 @@ using System.Threading.Tasks;
 
 namespace Darts_App.Models
 {
-    public class Game
+    public class PlayerGameConnection
     {
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [NotMapped]
-        public virtual ICollection<Player> Players { get; set; }
-        public int WinnerId { get; set; }
-        public int Sets { get; set; }
-        public int Legs { get; set; }
+        public int PlayerId { get; set; }
+        public int GameId { get; set; }
 
+        public virtual Player Player { get; private set; }
+        public virtual Game Game { get; private set; }
 
-        public Game()
-        {
-            Players=new HashSet<Player>();
-        }
     }
 }

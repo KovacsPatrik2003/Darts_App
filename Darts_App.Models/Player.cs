@@ -12,15 +12,23 @@ namespace Darts_App.Models
     {
         [Key]
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
+        [StringLength(240)]
         public string Name { get; set; }
         [Required]
+        [StringLength(240)]
         public string Password { get; set; }
         [NotMapped]
-        public virtual List<Game> Games { get; set; }
+        public virtual ICollection<Game> Games { get; set; }
         public int GamesWinCount { get; set; }
         public int GamesLoseCount { get; set; }
+
+        public Player()
+        {
+            Games=new HashSet<Game>();
+        }
 
     }
 }

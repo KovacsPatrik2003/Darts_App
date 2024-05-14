@@ -45,7 +45,7 @@ namespace Darts_App.Logic
             return this.repo.Read(id);
         }
 
-        private IQueryable<Player> ReadAll()
+        public IQueryable<Player> ReadAll()
         {
             return this.repo.ReadAll();
         }

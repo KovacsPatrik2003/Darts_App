@@ -1,4 +1,5 @@
 ﻿using Darts_App.Models;
+using System.Linq;
 
 namespace Darts_App.Logic
 {
@@ -8,5 +9,6 @@ namespace Darts_App.Logic
         void Delete(int id);
         Player SignIn(string name, string pass);
         void Update(Player item);
+        public IQueryable<Player> ReadAll();
     }
 }

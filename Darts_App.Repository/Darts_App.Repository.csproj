@@ -5,15 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DartsDatabase.mdf" />
-    <None Remove="DartsDatabase_log.ldf" />
+    <None Remove="DartsDb.mdf" />
+    <None Remove="DartsDb_log.ldf" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="DartsDatabase.mdf">
+    <Content Include="DartsDb.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DartsDatabase_log.ldf">
+    <Content Include="DartsDb_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
