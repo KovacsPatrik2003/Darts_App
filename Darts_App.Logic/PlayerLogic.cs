@@ -40,7 +40,7 @@ namespace Darts_App.Logic
             this.repo.Delete(id);
         }
 
-        private Player Read(int id)
+        public Player Read(int id)
         {
             return this.repo.Read(id);
         }

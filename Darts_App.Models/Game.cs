@@ -17,13 +17,21 @@ namespace Darts_App.Models
         [NotMapped]
         public virtual ICollection<Player> Players { get; set; }
         public int WinnerId { get; set; }
-        public int Sets { get; set; }
-        public int Legs { get; set; }
+        //public int? Sets { get; set; }
+        //public int? Legs { get; set; }
+        public int? StartPoints { get; set; }
+        public string Check_Out { get; set; }
+        [NotMapped]
+        public List<int> Sets { get; set; }
+        [NotMapped]
+        public List<int> Legs { get; set; }
 
 
         public Game()
         {
             Players=new HashSet<Player>();
+            Sets = new List<int>();
+            Legs = new List<int>();
         }
     }
 }

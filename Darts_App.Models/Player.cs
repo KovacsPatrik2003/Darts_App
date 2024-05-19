@@ -24,6 +24,8 @@ namespace Darts_App.Models
         public virtual ICollection<Game> Games { get; set; }
         public int GamesWinCount { get; set; }
         public int GamesLoseCount { get; set; }
+        [NotMapped]
+        public int CurrentPoints { get; set; }
 
         public Player()
         {

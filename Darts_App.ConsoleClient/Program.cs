@@ -2,6 +2,8 @@
 using Darts_App.Models;
 using Darts_App.Repository;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Darts_App.ConsoleClient
 {
@@ -12,67 +14,64 @@ namespace Darts_App.ConsoleClient
             DartsDbContext ctx = new DartsDbContext();
             IRepository<Player> playerRepo = new PlayerRepository(ctx);
             IRepository<Game> gameRepo = new GameRepository(ctx);
+            IRepository<PlayerGameConnection> playergameRepo = new PlayerGameConnectionRepository(ctx);
             IPlayerLogic playerLogic = new PlayerLogic(playerRepo);
-            IGameLogic gameLogic = new GameLogic(gameRepo);
+            IGameLogic gameLogic = new GameLogic(gameRepo,playergameRepo);
+            List<Player> trygamePlayers = new List<Player>();
+            trygamePlayers.Add(playerLogic.SignIn("Patrik", "Patrik"));
+            trygamePlayers.Add(playerLogic.SignIn("Adam", "Adam"));
+            Game game = new Game();
+            gameLogic.GetSets += GameLogic_GetSets;
+            gameLogic.GetLegs += GameLogic_GetLegs;
+            gameLogic.GetStartPoint += GameLogic_GetStartPoint;
+            gameLogic.GetChek_out += GameLogic_GetChek_out;
+            gameLogic.OngoingGamePoints += GameLogic_OngoingGamePoints;
+            gameLogic.GameSession(trygamePlayers, game);
+            Console.WriteLine($"Winner: {playerLogic.Read(game.WinnerId).Name}");
+        }
 
-            //Player p1 = new Player();
-            //p1.Name = "alma";
-            //p1.Password = "alma";
-            //p1.GamesWinCount = 1;
-            //Game g1 = new Game();
-            //playerLogic.Create(p1);
-            //Player output = playerLogic.SignIn("alma", "alma");
-            //Console.WriteLine(output.GamesWinCount);
-
-
-            foreach (var item in ctx.Players)
+        private static int GameLogic_OngoingGamePoints(Player p, List<Player> L, Game g)
+        {
+            Console.SetCursorPosition(0, 0);
+            for (int i = 0; i < L.Count; i++)
             {
-                Console.WriteLine($"{item.Id} {item.Name}, {item.Games.Count}");
+                Console.WriteLine($"{L[i].Name}:   {L[i].CurrentPoints.ToString().PadRight(20, ' ')}");
             }
-            Console.WriteLine();
-            foreach (var item in ctx.Games)
-            {
-                Console.WriteLine($"{item.Id} {item.WinnerId}");
-            }
-            Console.WriteLine();
-            foreach (var item in ctx.PlayerGameConnection)
-            {
-                Console.WriteLine($"{item.Id} {item.Game.Id} {item.Player.Name}");
-            }
+            Console.WriteLine($"Sets: {g.Sets.Count}\nLegs: {g.Legs.Count}");
+            Console.WriteLine($"Enter the points what {p.Name} scrored: ");
+            (int x, int y) = Console.GetCursorPosition();
+            Console.SetCursorPosition(0, y);
+            Console.WriteLine("                       ");
+            Console.SetCursorPosition(0, y);
+            return int.Parse(Console.ReadLine());
+        }
 
+        private static string GameLogic_GetChek_out()
+        {
+            Console.Clear();
+            Console.WriteLine("Enter the cheout method: ");
+            return Console.ReadLine();
+        }
 
-            playerLogic.Create(new Player()
-            {
-                Name = "Aladar",
-                Password = "Aladar",
+        private static int GameLogic_GetStartPoint()
+        {
+            Console.Clear();
+            Console.WriteLine("Enter the startpoint: ");
+            return int.Parse(Console.ReadLine());
+        }
 
-            });
-            ctx.PlayerGameConnection.Add(new PlayerGameConnection
-            {
-                GameId = 2,
-                PlayerId = 3,
-            });
-            ctx.PlayerGameConnection.Add(new PlayerGameConnection
-            {
-                GameId = 2,
-                PlayerId = 4,
-            });
-            ctx.SaveChanges();
-            Console.WriteLine();
-            foreach (var item in ctx.PlayerGameConnection)
-            {
-                Console.WriteLine($"{item.Id} {item.Game.Id} {item.Player.Id} {item.Player.Name}");
-            }
-            Console.WriteLine();
-            foreach (var item in playerLogic.ReadAll())
-            {
-                Console.WriteLine($"{item.Name}");
-                foreach (var item2 in item.Games)
-                {
-                    Console.WriteLine($" {item2.Id}");
-                }
-            }
+        private static int GameLogic_GetLegs()
+        {
+            Console.Clear();
+            Console.WriteLine("Enter the number of legs: ");
+            return int.Parse(Console.ReadLine());
+        }
 
+        private static int GameLogic_GetSets()
+        {
+            Console.Clear();
+            Console.WriteLine("Enter the number of sets: ");
+            return int.Parse(Console.ReadLine());;
         }
     }
 }
