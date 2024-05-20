@@ -103,11 +103,14 @@ namespace Darts_App.Logic
                             for (int l = 0; l < 3; l++)
                             {
                                 int notZeroResultChek = (int)OngoingGamePoints?.Invoke(players[k], players, game);
-                                players[k].CurrentPoints -= notZeroResultChek;
-                                if (players[k].CurrentPoints < 0)
+                                int feedback = Pointdecrementation(notZeroResultChek, game.Check_Out, players[k].CurrentPoints);
+                                if (feedback ==-1)
                                 {
-                                    players[k].CurrentPoints = currentpoints;
                                     break;
+                                }
+                                else
+                                {
+                                    players[k].CurrentPoints-=feedback;
                                 }
                                 if (players[k].CurrentPoints == 0)
                                 {
@@ -145,6 +148,52 @@ namespace Darts_App.Logic
                 }
             }
             game.WinnerId = players[max].Id;
+        }
+        
+        private int Pointdecrementation(int point, string chekoutmethod, int actualpoint)
+        {
+            if (chekoutmethod=="Straight Out")
+            {
+                if (actualpoint<point)
+                {
+                    //if overthrow
+                    return -1;
+                }
+                else
+                {
+                    return point;
+                }
+            }
+            else if(chekoutmethod == "Double Out")
+            {
+                if (actualpoint<point)
+                {
+                    //if overthrow
+                    return -1;
+                }
+                else
+                {
+                    int sub=actualpoint-point;
+                    if (sub==0 && point%2==0)
+                    {
+                        return point;
+                    }
+                    else
+                    {
+                        if (sub>1)
+                        {
+                            return point;
+                        }
+                        else
+                        {
+                            //if overthrow
+                            return -1;
+                        }
+                    }
+                }
+            }
+            //something else
+            return -404;
         }
     } 
 }
