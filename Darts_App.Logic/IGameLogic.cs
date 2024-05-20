@@ -10,11 +10,12 @@ namespace Darts_App.Logic
         void Delete(int id);
         Game Read(int id);
         IQueryable<Game> ReadAll();
-        public void GameSession(List<Player> players, Game game);
+        public void GameSession(List<Player> players);
         public event GameLogicDelegate GetSets;
         public event GameLogicDelegate GetLegs;
         public event GameLogicDelegate GetStartPoint;
         public event GameLogicDelegateStirng GetChek_out;
         public event OnGoingDelegate OngoingGamePoints;
+        public event GameLogicDelegateWinner Winner;
     }
 }

@@ -20,14 +20,20 @@ namespace Darts_App.ConsoleClient
             List<Player> trygamePlayers = new List<Player>();
             trygamePlayers.Add(playerLogic.SignIn("Patrik", "Patrik"));
             trygamePlayers.Add(playerLogic.SignIn("Adam", "Adam"));
-            Game game = new Game();
+            //Game game = new Game();
             gameLogic.GetSets += GameLogic_GetSets;
             gameLogic.GetLegs += GameLogic_GetLegs;
             gameLogic.GetStartPoint += GameLogic_GetStartPoint;
             gameLogic.GetChek_out += GameLogic_GetChek_out;
             gameLogic.OngoingGamePoints += GameLogic_OngoingGamePoints;
-            gameLogic.GameSession(trygamePlayers, game);
-            Console.WriteLine($"Winner: {playerLogic.Read(game.WinnerId).Name}");
+            gameLogic.Winner += GameLogic_Winner;
+            gameLogic.GameSession(trygamePlayers);
+            //Console.WriteLine($"Winner: {playerLogic.Read(game.WinnerId).Name}");
+        }
+
+        private static void GameLogic_Winner(int winnerId)
+        {
+            Console.WriteLine($"WinnerId: {winnerId}");
         }
 
         private static int GameLogic_OngoingGamePoints(Player p, List<Player> L, Game g)
@@ -35,7 +41,7 @@ namespace Darts_App.ConsoleClient
             Console.SetCursorPosition(0, 0);
             for (int i = 0; i < L.Count; i++)
             {
-                Console.WriteLine($"Name: {L[i].Name}, Sets:{g.Sets[i]}, Legs:{g.Legs[i]}, Points:{L[i].CurrentPoints.ToString().PadRight(20, ' ')}");
+                Console.WriteLine($"Id: {L[i].Id}, Name: {L[i].Name}, Sets:{g.Sets[i]}, Legs:{g.Legs[i]}, Points:{L[i].CurrentPoints.ToString().PadRight(20, ' ')}");
             }
             Console.WriteLine($"Sets: {g.SetCount}\nLegs: {g.LegCount}");
             Console.WriteLine($"Enter the points what {p.Name} scrored: "+"       ");

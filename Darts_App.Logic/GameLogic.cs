@@ -14,6 +14,7 @@ namespace Darts_App.Logic
     public delegate int GameLogicDelegate();
     public delegate int OnGoingDelegate(Player p, List<Player> L, Game g);
     public delegate string GameLogicDelegateStirng();
+    public delegate void GameLogicDelegateWinner(int winnerId);
     public class GameLogic : IGameLogic
     {
         IRepository<Game> repo;
@@ -23,6 +24,7 @@ namespace Darts_App.Logic
         public event GameLogicDelegate GetStartPoint;
         public event GameLogicDelegateStirng GetChek_out;
         public event OnGoingDelegate OngoingGamePoints;
+        public event GameLogicDelegateWinner Winner;
         public GameLogic(IRepository<Game> repo, IRepository<PlayerGameConnection> connectionRepo)
         {
             this.repo = repo;
@@ -49,8 +51,9 @@ namespace Darts_App.Logic
             return this.repo.ReadAll();
         }
 
-        public void GameSession(List<Player> players, Game game)
+        public void GameSession(List<Player> players)
         {
+            Game game = new Game();
             //create connections between the tables
             for (int k = 0; k < players.Count; k++)
             {
@@ -106,6 +109,7 @@ namespace Darts_App.Logic
                                 int feedback = Pointdecrementation(notZeroResultChek, game.Check_Out, players[k].CurrentPoints);
                                 if (feedback ==-1)
                                 {
+                                    players[k].CurrentPoints=currentpoints;
                                     break;
                                 }
                                 else
@@ -148,6 +152,7 @@ namespace Darts_App.Logic
                 }
             }
             game.WinnerId = players[max].Id;
+            Winner?.Invoke(game.WinnerId);
         }
         
         private int Pointdecrementation(int point, string chekoutmethod, int actualpoint)
