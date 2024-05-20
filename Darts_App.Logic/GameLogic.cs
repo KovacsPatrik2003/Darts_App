@@ -59,21 +59,17 @@ namespace Darts_App.Logic
                     GameId = game.Id,
                     PlayerId = players[k].Id
                 });
+                game.Sets.Add(0);
+                game.Legs.Add(0);
             }
             //game session
 
             //get sets from client
-            int set =(int) GetSets?.Invoke();
-            for (int k = 0; k < set; k++)
-            {
-                game.Sets.Add(0);
-            }
+            game.SetCount =(int) GetSets?.Invoke();
+
             //get legs from client
-            int leg =(int) GetLegs?.Invoke();
-            for (int k = 0; k < leg; k++)
-            {
-                game.Legs.Add(0);
-            }
+            game.LegCount =(int) GetLegs?.Invoke();
+
             //get point from client
             game.StartPoints = GetStartPoint?.Invoke();
             int? fixpoints = game.StartPoints;
@@ -85,14 +81,14 @@ namespace Darts_App.Logic
             bool finish = false;
             int max = 0;
             //set counter
-            while (game.Sets.All(x=>x!=game.Sets.Count))
+            while (game.Sets.All(x=>x!=game.SetCount))
             {
                 for (int i = 0; i < game.Legs.Count; i++)
                 {
                     game.Legs[i] = 0;
                 }
                 //leg counter
-                while (game.Legs.All(x=>x<game.Legs.Count))
+                while (game.Legs.All(x=>x<game.LegCount))
                 {
                     //new leg start
                     for (int k = 0; k < players.Count; k++)

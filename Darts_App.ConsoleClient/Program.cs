@@ -35,10 +35,10 @@ namespace Darts_App.ConsoleClient
             Console.SetCursorPosition(0, 0);
             for (int i = 0; i < L.Count; i++)
             {
-                Console.WriteLine($"{L[i].Name}:   {L[i].CurrentPoints.ToString().PadRight(20, ' ')}");
+                Console.WriteLine($"Name: {L[i].Name}, Sets:{g.Sets[i]}, Legs:{g.Legs[i]}, Points:{L[i].CurrentPoints.ToString().PadRight(20, ' ')}");
             }
-            Console.WriteLine($"Sets: {g.Sets.Count}\nLegs: {g.Legs.Count}");
-            Console.WriteLine($"Enter the points what {p.Name} scrored: ");
+            Console.WriteLine($"Sets: {g.SetCount}\nLegs: {g.LegCount}");
+            Console.WriteLine($"Enter the points what {p.Name} scrored: "+"       ");
             (int x, int y) = Console.GetCursorPosition();
             Console.SetCursorPosition(0, y);
             Console.WriteLine("                       ");

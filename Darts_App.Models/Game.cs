@@ -25,6 +25,8 @@ namespace Darts_App.Models
         public List<int> Sets { get; set; }
         [NotMapped]
         public List<int> Legs { get; set; }
+        public int SetCount { get; set; }
+        public int LegCount { get; set; }
 
 
         public Game()
