@@ -11,11 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{03DF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Darts_App.Repository", "Darts_App.Repository\Darts_App.Repository.csproj", "{E7A67497-1409-4B77-B214-3E7477F78F5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darts_App.Logic", "Darts_App.Logic\Darts_App.Logic.csproj", "{5781FC1C-C5E8-4720-9443-BB7AC5BB15C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Darts_App.Logic", "Darts_App.Logic\Darts_App.Logic.csproj", "{5781FC1C-C5E8-4720-9443-BB7AC5BB15C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darts_App.ConsoleClient", "Darts_App.ConsoleClient\Darts_App.ConsoleClient.csproj", "{8682DAAF-D859-41DB-B697-31F81E4BB76B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Darts_App.ConsoleClient", "Darts_App.ConsoleClient\Darts_App.ConsoleClient.csproj", "{8682DAAF-D859-41DB-B697-31F81E4BB76B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{B35714E4-4894-4DC0-A6DA-4B8A1C50C346}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darts_App.Endpoint", "Darts_App.Endpoint\Darts_App.Endpoint.csproj", "{294809BE-B71A-4E96-8582-851754BE03C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8682DAAF-D859-41DB-B697-31F81E4BB76B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8682DAAF-D859-41DB-B697-31F81E4BB76B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8682DAAF-D859-41DB-B697-31F81E4BB76B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{294809BE-B71A-4E96-8582-851754BE03C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{294809BE-B71A-4E96-8582-851754BE03C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{294809BE-B71A-4E96-8582-851754BE03C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{294809BE-B71A-4E96-8582-851754BE03C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{E7A67497-1409-4B77-B214-3E7477F78F5A} = {03DF65E5-8569-47A7-A52C-05AC19DF58F6}
 		{5781FC1C-C5E8-4720-9443-BB7AC5BB15C1} = {03DF65E5-8569-47A7-A52C-05AC19DF58F6}
 		{8682DAAF-D859-41DB-B697-31F81E4BB76B} = {B35714E4-4894-4DC0-A6DA-4B8A1C50C346}
+		{294809BE-B71A-4E96-8582-851754BE03C6} = {03DF65E5-8569-47A7-A52C-05AC19DF58F6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4FF1292F-43F7-4131-B00E-E1867BE38C3A}

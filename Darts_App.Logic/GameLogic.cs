@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Security.Permissions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Darts_App.Logic
@@ -51,9 +53,10 @@ namespace Darts_App.Logic
             return this.repo.ReadAll();
         }
 
-        public void GameSession(List<Player> players)
+        public async Task GameSession(List<Player> players, WebSocket webSocket)
         {
             Game game = new Game();
+            this.Create(game);
             //create connections between the tables
             for (int k = 0; k < players.Count; k++)
             {
@@ -67,18 +70,30 @@ namespace Darts_App.Logic
             }
             //game session
 
-            //get sets from client
-            game.SetCount =(int) GetSets?.Invoke();
+            //get sets from clientúawait SendMessageAsync(webSocket, "RequestSets");
+            int set = int.Parse(await ReceiveMessageAsync(webSocket));
+            //game.SetCount =(int) GetSets?.Invoke();
+            game.SetCount = set;
+
 
             //get legs from client
-            game.LegCount =(int) GetLegs?.Invoke();
+            await SendMessageAsync(webSocket, "RequestLegs");
+            int leg = int.Parse(await ReceiveMessageAsync(webSocket));
+            //game.LegCount =(int) GetLegs?.Invoke();
+            game.LegCount = leg;
+
 
             //get point from client
-            game.StartPoints = GetStartPoint?.Invoke();
+            await SendMessageAsync(webSocket, "RequestStartPoints");
+            game.StartPoints = int.Parse(await ReceiveMessageAsync(webSocket));
+            //game.StartPoints = GetStartPoint?.Invoke();
             int? fixpoints = game.StartPoints;
 
+
             //get cheout mode from client
-            game.Check_Out = GetChek_out?.Invoke();
+            await SendMessageAsync(webSocket, "RequestCheckOutMode");
+            game.Check_Out = await ReceiveMessageAsync(webSocket);
+            //game.Check_Out = GetChek_out?.Invoke();
 
             //game session start
             bool finish = false;
@@ -105,8 +120,10 @@ namespace Darts_App.Logic
                             int currentpoints = players[k].CurrentPoints;
                             for (int l = 0; l < 3; l++)
                             {
-                                int notZeroResultChek = (int)OngoingGamePoints?.Invoke(players[k], players, game);
-                                int feedback = Pointdecrementation(notZeroResultChek, game.Check_Out, players[k].CurrentPoints);
+                                await SendMessageAsync(webSocket, $"OngoingGamePoints:{players[k].Id}");
+                                int notZeroResultCheck = int.Parse(await ReceiveMessageAsync(webSocket));
+                                //int notZeroResultChek = (int)OngoingGamePoints?.Invoke(players[k], players, game);
+                                int feedback = Pointdecrementation(notZeroResultCheck, game.Check_Out, players[k].CurrentPoints);
                                 if (feedback ==-1)
                                 {
                                     players[k].CurrentPoints=currentpoints;
@@ -154,7 +171,20 @@ namespace Darts_App.Logic
             game.WinnerId = players[max].Id;
             Winner?.Invoke(game.WinnerId);
         }
-        
+
+        private async Task SendMessageAsync(WebSocket webSocket, string message)
+        {
+            var bytes = Encoding.UTF8.GetBytes(message);
+            await webSocket.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
+        }
+
+        private async Task<string> ReceiveMessageAsync(WebSocket webSocket)
+        {
+            var buffer = new byte[1024 * 4];
+            var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            return Encoding.UTF8.GetString(buffer, 0, result.Count);
+        }
+
         private int Pointdecrementation(int point, string chekoutmethod, int actualpoint)
         {
             if (chekoutmethod=="Straight Out")

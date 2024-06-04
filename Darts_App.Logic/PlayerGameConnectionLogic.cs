@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Darts_App.Logic
 {
-    public class PlayerGameConnectionLogic
+    public class PlayerGameConnectionLogic : IPlayerGameConnectionLogic
     {
         IRepository<PlayerGameConnection> repo;
         public PlayerGameConnectionLogic(IRepository<PlayerGameConnection> repo)
