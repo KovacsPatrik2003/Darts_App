@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Darts_App.Models
@@ -15,6 +16,7 @@ namespace Darts_App.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [NotMapped]
+        [JsonIgnore]
         public virtual ICollection<Player> Players { get; set; }
         public int WinnerId { get; set; }
         //public int? Sets { get; set; }

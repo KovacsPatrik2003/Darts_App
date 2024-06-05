@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Darts_App.Models
@@ -21,6 +22,7 @@ namespace Darts_App.Models
         [StringLength(240)]
         public string Password { get; set; }
         [NotMapped]
+        [JsonIgnore]
         public virtual ICollection<Game> Games { get; set; }
         public int GamesWinCount { get; set; }
         public int GamesLoseCount { get; set; }

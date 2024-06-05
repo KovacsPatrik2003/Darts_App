@@ -5,15 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Darts_App.Logic\Darts_App.Logic.csproj" />
-    <ProjectReference Include="..\Darts_App.Repository\Darts_App.Repository.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNet.SignalR.Core" Version="2.4.3" />
-		<PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.2.1" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Darts_App.Logic\Darts_App.Logic.csproj" />
+    <ProjectReference Include="..\Darts_App.Models\Darts_App.Models.csproj" />
+    <ProjectReference Include="..\Darts_App.Repository\Darts_App.Repository.csproj" />
+  </ItemGroup>
 
 </Project>

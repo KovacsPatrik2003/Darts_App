@@ -2,7 +2,6 @@
 using Darts_App.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,55 +9,48 @@ namespace Darts_App.Endpoint.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PlayerController : ControllerBase
+    public class PlayerGameConnectionController : ControllerBase
     {
-        IPlayerLogic logic;
+        IPlayerGameConnectionLogic logic;
 
-        public PlayerController(IPlayerLogic logic)
+        public PlayerGameConnectionController(IPlayerGameConnectionLogic logic)
         {
             this.logic = logic;
         }
 
-        // GET: api/<PlayerController>
+        // GET: api/<PlayerGameConnectionController>
         [HttpGet]
-        public IQueryable<Player> ReadAll()
+        public IEnumerable<PlayerGameConnection> ReadAll()
         {
             return this.logic.ReadAll();
         }
 
-        // GET api/<PlayerController>/5
+        // GET api/<PlayerGameConnectionController>/5
         [HttpGet("{id}")]
-        public Player Read(int id)
+        public PlayerGameConnection Read(int id)
         {
             return this.logic.Read(id);
         }
 
-        // POST api/<PlayerController>
+        // POST api/<PlayerGameConnectionController>
         [HttpPost]
-        public void Create([FromBody] Player value)
+        public void Create([FromBody] PlayerGameConnection value)
         {
             this.logic.Create(value);
         }
 
-        // PUT api/<PlayerController>/5
+        // PUT api/<PlayerGameConnectionController>/5
         [HttpPut]
-        public void Put([FromBody] Player value)
+        public void Update([FromBody] PlayerGameConnection value)
         {
             this.logic.Update(value);
         }
 
-        // DELETE api/<PlayerController>/5
+        // DELETE api/<PlayerGameConnectionController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
             this.logic.Delete(id);
-        }
-
-        [HttpGet("line")]
-        public Player SignIn(string line)
-        {
-            string[] datas = line.Split(" ");
-            return this.logic.SignIn(datas[0], datas[1]);
         }
     }
 }
