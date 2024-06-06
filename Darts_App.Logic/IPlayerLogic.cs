@@ -8,7 +8,7 @@ namespace Darts_App.Logic
         void Create(Player item);
         void Delete(int id);
         Player Read(int id);
-        Player SignIn(string name, string pass);
+        Player LogIn(string name, string pass);
         void Update(Player item);
         public IQueryable<Player> ReadAll();
     }

@@ -55,7 +55,7 @@ namespace Darts_App.Logic
             this.repo.Update(item);
         }
 
-        public Player SignIn(string name, string pass)
+        public Player LogIn(string name, string pass)
         {
             Player player;
             player = this.repo.ReadAll().FirstOrDefault(x => x.Name == name && x.Password == pass);

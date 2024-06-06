@@ -1,6 +1,7 @@
 ﻿using Darts_App.Logic;
 using Darts_App.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -54,11 +55,21 @@ namespace Darts_App.Endpoint.Controllers
             this.logic.Delete(id);
         }
 
-        [HttpGet("line")]
-        public Player SignIn(string line)
+        [HttpGet("{userName}/{password}")]
+        public Player LogIn(string userName, string password)
         {
-            string[] datas = line.Split(" ");
-            return this.logic.SignIn(datas[0], datas[1]);
+            try
+            {
+                Player p = this.logic.LogIn(userName, password);
+                return p;
+            }
+            catch (NullReferenceException e)
+            {
+
+                return null;
+            }
+            
+           
         }
     }
 }
