@@ -2,7 +2,7 @@
 async function LogIn() {
     let userName = document.getElementById("userName").value;
     let password = document.getElementById("userPassword").value;
-    await fetch("http://localhost:61231/api/Player/"+userName+"/"+password)
+    await fetch("http://localhost:61231/api/Player/" + userName + "/" + password)
         .then(x => {
             if (!x.ok) {
                 return x.json().then(error => {
@@ -15,12 +15,12 @@ async function LogIn() {
             player = y;
             console.log(player);
             window.location.href = 'GameStation.html';
-            
+
         })
         .catch(error => {
             console.error('Login failed:', error.message);
             alert('Login failed');
         });
-    
+
 }
 
