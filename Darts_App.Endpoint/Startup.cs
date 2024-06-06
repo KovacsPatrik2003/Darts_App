@@ -58,6 +58,13 @@ namespace Darts_App.Endpoint
 
             app.UseRouting();
 
+            app.UseCors(x=>x
+                .AllowCredentials()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithOrigins("http://localhost:41820")
+            );
+
             app.UseWebSockets();
 
             app.UseAuthorization();
