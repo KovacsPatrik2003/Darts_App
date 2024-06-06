@@ -3,19 +3,23 @@
 <head>
     <meta charset="utf-8" />
     <title>LogIn Page</title>
-    <link rel="stylesheet" href="Style.css" />
+    <link rel="stylesheet" href="LoginStyle.css" />
 </head>
-<body>
-    <div>
-        <h1>Log In</h1>
-        <label>Enter your User Name: </label>
-        <input type="text" id="userName" />
-        <label>Enter your Password: </label>
-        <input type="password" id="userPassword" />
-        <button onclick="LogIn()">Log In</button>
+<body class="login">
+    <div class="parent">
+        <div class="centered-div">
+            <h1>Log In</h1>
+            <label>Enter your User Name: </label>
+            <input type="text" id="userName" />
+            <label>Enter your Password: </label>
+            <input type="password" id="userPassword" />
+            <button onclick="LogIn()">Log In</button>
+            <h3>Don't have account yet? <a href="SignUp.html">Sign Up</a></h3>
+        </div>
     </div>
+   
     
-    <h3>Don't have account yet? <a href="SignUp.html">Sign Up</a></h3>
+    
 
 
 

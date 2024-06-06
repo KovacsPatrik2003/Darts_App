@@ -1,0 +1,21 @@
+﻿body.signup {
+    background-image: url("signup.png");
+}
+body.login {
+    background-image: url("loginbackground.jpg");
+}
+.parent {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    
+}
+
+.centered-div {
+    width: 200px;
+    height: 150px;
+}
+h1,label,h3{
+    color: black;
+    font-size: larger;
+}
