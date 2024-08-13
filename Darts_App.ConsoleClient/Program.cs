@@ -18,8 +18,8 @@ namespace Darts_App.ConsoleClient
             IPlayerLogic playerLogic = new PlayerLogic(playerRepo);
             IGameLogic gameLogic = new GameLogic(gameRepo,playergameRepo);
             List<Player> trygamePlayers = new List<Player>();
-            trygamePlayers.Add(playerLogic.SignIn("Patrik", "Patrik"));
-            trygamePlayers.Add(playerLogic.SignIn("Adam", "Adam"));
+            //trygamePlayers.Add(playerLogic.SignIn("Patrik", "Patrik"));
+            //trygamePlayers.Add(playerLogic.SignIn("Adam", "Adam"));
             //Game game = new Game();
             gameLogic.GetSets += GameLogic_GetSets;
             gameLogic.GetLegs += GameLogic_GetLegs;

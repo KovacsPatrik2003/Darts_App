@@ -39,6 +39,8 @@ namespace Darts_App.Endpoint
             services.AddTransient<IGameLogic, GameLogic>();
             services.AddTransient<IPlayerGameConnectionLogic, PlayerGameConnectionLogic>();
 
+            services.AddSignalR();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -72,19 +74,7 @@ namespace Darts_App.Endpoint
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                // Map the WebSocket controller
-                //endpoints.MapGet("/ws", async context =>
-                //{
-                //    if (context.WebSockets.IsWebSocketRequest)
-                //    {
-                //        WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                //        await WebSocketHandler.HandleWebSocketAsync(webSocket);
-                //    }
-                //    else
-                //    {
-                //        context.Response.StatusCode = 400;
-                //    }
-                //});
+                endpoints.MapHub<SignalRHub>("/hub");
             });
         }
     }

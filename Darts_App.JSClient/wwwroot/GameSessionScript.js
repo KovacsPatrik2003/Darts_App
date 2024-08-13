@@ -17,8 +17,6 @@ async function getData() {
             if (player) {
                 ownGames = playerGameConnections.filter(game => game.playerId == player.id);
             }
-            //ownGames = playerGameConnections.filter(game => game.playerId == getActualUserId());
-            //console.log(ownGames);
             displayOldGames();
             
         });
@@ -43,12 +41,4 @@ function displayOldGames() {
             + conn.playerId + "</td><td> GameId: " + conn.gameId + "</td><td> Winner: " + p[0].name + "</td></tr>"
     });
 }
-
-function getActualUserId() {
-    let userName = localStorage.getItem('username');
-    console.log(userName);
-    let u = players.filter(x => x.name == "Patrik");
-    return u[0].id;
-}
-
 

@@ -17,7 +17,7 @@ async function LogIn() {
             console.log(player);
             localStorage.setItem('username', userName);
             console.log('Username stored in localStorage:', localStorage.getItem('username')); 
-            window.location.href = 'GameStation.html';
+            window.location.href = 'GameSession.vue';
 
         })
         .catch(error => {

@@ -5,16 +5,46 @@
     <title>GamaSession</title>
 </head>
 <body>
-    <h1>This is the game station</h1>
-    <div class="maindiv">
+    <div class="maindiv" style="border: 1px solid black; width: 30%; float: left;">
         <div class="getGamesDiv">
             <h2>Get old games Results: </h2>
             <button onclick="getData()">Old Games</button>
         </div>
         <div id="oldGameResults"></div>
-        <div class="gameSessionDiv">
-
+    </div>
+    <div id="game-settings" style="border: 1px solid black; width: 20%; float: left;">
+        <h2>Game Settings</h2>
+        <div>
+            <label for="checkout-method">Checkout Method:</label>
+            <select id="checkout-method" name="checkout-method">
+                <option value="double">Double Out</option>
+                <option value="master">Master Out</option>
+                <option value="straight">Straight Out</option>
+            </select>
         </div>
+        <div>
+            <label for="start-point">Start Point:</label>
+            <select id="start-point" name="start-point">
+                <option value="101">101</option>
+                <option value="201">201</option>
+                <option value="301">301</option>
+                <option value="501">501</option>
+                <option value="701">701</option>
+            </select>
+        </div>
+        <div>
+            <label for="legs">Legs:</label>
+            <input type="number" id="legs" name="legs" min="1" max="20" value="1">
+        </div>
+        <div>
+            <label for="sets">Sets:</label>
+            <input type="number" id="sets" name="sets" min="1" max="10" value="1">
+        </div>
+    </div>
+
+    <div id="game-session" style="border: 1px solid black; width: 40%; float: left;">
+        <!-- Game session information -->
+        <label>3. resz</label>
     </div>
 
 
