@@ -12,7 +12,7 @@ namespace Darts_App.Logic
         void Delete(int id);
         Game Read(int id);
         IQueryable<Game> ReadAll();
-        public Task GameSession(List<Player> players, WebSocket webSocket);
+        public void GameSession(List<Player> players, int setCount, int legCount, int startPoints, string checkOutMethod);
         public event GameLogicDelegate GetSets;
         public event GameLogicDelegate GetLegs;
         public event GameLogicDelegate GetStartPoint;

@@ -1,5 +1,5 @@
 ﻿let player = [];
-
+window.location.href = 'GameStation.html';
 async function LogIn() {
     let userName = document.getElementById("userName").value;
     let password = document.getElementById("userPassword").value;
@@ -17,7 +17,7 @@ async function LogIn() {
             console.log(player);
             localStorage.setItem('username', userName);
             console.log('Username stored in localStorage:', localStorage.getItem('username')); 
-            window.location.href = 'GameSession.vue';
+            window.location.href = 'GameStation.html';
 
         })
         .catch(error => {

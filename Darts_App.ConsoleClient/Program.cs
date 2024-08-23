@@ -36,21 +36,21 @@ namespace Darts_App.ConsoleClient
             Console.WriteLine($"WinnerId: {winnerId}");
         }
 
-        //private static int GameLogic_OngoingGamePoints(Player p, List<Player> L, Game g)
-        //{
-        //    Console.SetCursorPosition(0, 0);
-        //    for (int i = 0; i < L.Count; i++)
-        //    {
-        //        Console.WriteLine($"Id: {L[i].Id}, Name: {L[i].Name}, Sets:{g.Sets[i]}, Legs:{g.Legs[i]}, Points:{L[i].CurrentPoints.ToString().PadRight(20, ' ')}");
-        //    }
-        //    Console.WriteLine($"Sets: {g.SetCount}\nLegs: {g.LegCount}");
-        //    Console.WriteLine($"Enter the points what {p.Name} scrored: "+"       ");
-        //    (int x, int y) = Console.GetCursorPosition();
-        //    Console.SetCursorPosition(0, y);
-        //    Console.WriteLine("                       ");
-        //    Console.SetCursorPosition(0, y);
-        //    return int.Parse(Console.ReadLine());
-        //}
+        private static int GameLogic_OngoingGamePoints(Player p, List<Player> L, Game g)
+        {
+            Console.SetCursorPosition(0, 0);
+            for (int i = 0; i < L.Count; i++)
+            {
+                Console.WriteLine($"Id: {L[i].Id}, Name: {L[i].Name}, Sets:{g.Sets[i]}, Legs:{g.Legs[i]}, Points:{L[i].CurrentPoints.ToString().PadRight(20, ' ')}");
+            }
+            Console.WriteLine($"Sets: {g.SetCount}\nLegs: {g.LegCount}");
+            Console.WriteLine($"Enter the points what {p.Name} scrored: " + "       ");
+            (int x, int y) = Console.GetCursorPosition();
+            Console.SetCursorPosition(0, y);
+            Console.WriteLine("                       ");
+            Console.SetCursorPosition(0, y);
+            return int.Parse(Console.ReadLine());
+        }
 
         private static string GameLogic_GetChek_out()
         {

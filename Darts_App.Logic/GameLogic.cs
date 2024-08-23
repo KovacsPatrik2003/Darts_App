@@ -52,8 +52,11 @@ namespace Darts_App.Logic
         {
             return this.repo.ReadAll();
         }
-
-        public async Task GameSession(List<Player> players, WebSocket webSocket)
+        public async Task<int> pointsScored(int points=0)
+        {
+            return points;
+        }
+        public async void GameSession(List<Player> players, int setCount, int legCount, int startPoints, string checkOutMethod)
         {
             Game game = new Game();
             this.Create(game);
@@ -71,42 +74,32 @@ namespace Darts_App.Logic
             //game session
 
             //get sets from clientúawait SendMessageAsync(webSocket, "RequestSets");
-            int set = int.Parse(await ReceiveMessageAsync(webSocket));
-            //game.SetCount =(int) GetSets?.Invoke();
-            game.SetCount = set;
-
+            game.SetCount = (int)GetSets?.Invoke();
 
             //get legs from client
-            await SendMessageAsync(webSocket, "RequestLegs");
-            int leg = int.Parse(await ReceiveMessageAsync(webSocket));
-            //game.LegCount =(int) GetLegs?.Invoke();
-            game.LegCount = leg;
+            game.LegCount = (int)GetLegs?.Invoke();
 
 
             //get point from client
-            await SendMessageAsync(webSocket, "RequestStartPoints");
-            game.StartPoints = int.Parse(await ReceiveMessageAsync(webSocket));
-            //game.StartPoints = GetStartPoint?.Invoke();
+            game.StartPoints = GetStartPoint?.Invoke();
             int? fixpoints = game.StartPoints;
 
 
             //get cheout mode from client
-            await SendMessageAsync(webSocket, "RequestCheckOutMode");
-            game.Check_Out = await ReceiveMessageAsync(webSocket);
-            //game.Check_Out = GetChek_out?.Invoke();
+            game.Check_Out = GetChek_out?.Invoke();
 
             //game session start
             bool finish = false;
             int max = 0;
             //set counter
-            while (game.Sets.All(x=>x!=game.SetCount))
+            while (game.Sets.All(x => x != game.SetCount))
             {
                 for (int i = 0; i < game.Legs.Count; i++)
                 {
                     game.Legs[i] = 0;
                 }
                 //leg counter
-                while (game.Legs.All(x=>x<game.LegCount))
+                while (game.Legs.All(x => x < game.LegCount))
                 {
                     //new leg start
                     for (int k = 0; k < players.Count; k++)
@@ -120,18 +113,18 @@ namespace Darts_App.Logic
                             int currentpoints = players[k].CurrentPoints;
                             for (int l = 0; l < 3; l++)
                             {
-                                await SendMessageAsync(webSocket, $"OngoingGamePoints:{players[k].Id}");
-                                int notZeroResultCheck = int.Parse(await ReceiveMessageAsync(webSocket));
-                                //int notZeroResultChek = (int)OngoingGamePoints?.Invoke(players[k], players, game);
+
+                                //int notZeroResultCheck = (int)OngoingGamePoints?.Invoke(players[k], players, game);
+                                int notZeroResultCheck = await pointsScored();
                                 int feedback = Pointdecrementation(notZeroResultCheck, game.Check_Out, players[k].CurrentPoints);
-                                if (feedback ==-1)
+                                if (feedback == -1)
                                 {
-                                    players[k].CurrentPoints=currentpoints;
+                                    players[k].CurrentPoints = currentpoints;
                                     break;
                                 }
                                 else
                                 {
-                                    players[k].CurrentPoints-=feedback;
+                                    players[k].CurrentPoints -= feedback;
                                 }
                                 if (players[k].CurrentPoints == 0)
                                 {
@@ -172,24 +165,11 @@ namespace Darts_App.Logic
             Winner?.Invoke(game.WinnerId);
         }
 
-        private async Task SendMessageAsync(WebSocket webSocket, string message)
-        {
-            var bytes = Encoding.UTF8.GetBytes(message);
-            await webSocket.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
-        }
-
-        private async Task<string> ReceiveMessageAsync(WebSocket webSocket)
-        {
-            var buffer = new byte[1024 * 4];
-            var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-            return Encoding.UTF8.GetString(buffer, 0, result.Count);
-        }
-
         private int Pointdecrementation(int point, string chekoutmethod, int actualpoint)
         {
-            if (chekoutmethod=="Straight Out")
+            if (chekoutmethod == "Straight Out")
             {
-                if (actualpoint<point)
+                if (actualpoint < point)
                 {
                     //if overthrow
                     return -1;
@@ -199,23 +179,23 @@ namespace Darts_App.Logic
                     return point;
                 }
             }
-            else if(chekoutmethod == "Double Out")
+            else if (chekoutmethod == "Double Out")
             {
-                if (actualpoint<point)
+                if (actualpoint < point)
                 {
                     //if overthrow
                     return -1;
                 }
                 else
                 {
-                    int sub=actualpoint-point;
-                    if (sub==0 && point%2==0)
+                    int sub = actualpoint - point;
+                    if (sub == 0 && point % 2 == 0)
                     {
                         return point;
                     }
                     else
                     {
-                        if (sub>1)
+                        if (sub > 1)
                         {
                             return point;
                         }
