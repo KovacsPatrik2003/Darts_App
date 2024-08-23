@@ -4,4 +4,31 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\GameSession.vue" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="src\components\VueLogIn.vue" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\GameSession.vue" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="src\components\VueLogIn.vue">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\GameSession.vue" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="src\assets\" />
+  </ItemGroup>
+
 </Project>
