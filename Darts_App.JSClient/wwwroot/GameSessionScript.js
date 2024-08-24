@@ -2,6 +2,12 @@
 let ownGames = [];
 let players = [];
 let userName = '';
+
+let setCount=0;
+let legCount=0;
+let startPoint=0;
+let checkOutMethod='double';
+let scoredPoint=0;
 getPlayers();
 
 
@@ -14,7 +20,13 @@ function setupSignalR() {
         .configureLogging(signalR.LogLevel.Information)
         .build();
 
-    connection.on("GameSessionStarted");
+    connection.on("GameSessionStarted", function (){
+        console.log("Game session started!");
+    });
+
+    connection.on("ThrowHappend", function() {
+        console.log("Throw happened!");
+    });
     
     connection.onclose(async () => {
         await start();
@@ -101,7 +113,7 @@ const gameSessionRequest = {
 };
 
 async function StartGame() {
-    await fetch('http://localhost:61231/api/Game/start-game-session/1/1/301/Straight%20Out', {
+    await fetch('http://localhost:61231/api/Game/start-game-session/'+setCount+'/'+legCount+'/'+startPoint+'/'+checkOutMethod , {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -112,9 +124,34 @@ async function StartGame() {
         .then(data => console.log(data))
         .catch(error => console.error('Error:', error));
 }
-StartGame();
 
 
+function GetGameSessionInitDatas(){
+    checkOutMethod = document.getElementById('checkout-method').value;
+    startPoint=document.getElementById('start-point').value;
+    legCount=document.getElementById('legs').value;
+    setCount=document.getElementById('sets').value;
+    StartGame();
+}
 
-
+async function ScoredPoints(){
+    scoredPoint=document.getElementById('throw').value;
+    await fetch('http://localhost:61231/api/Game/points/'+scoredPoint, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text(); 
+    })
+    .then(text => {
+        const data = text ? JSON.parse(text) : {}; 
+        console.log(data);
+    })
+    .catch(error => console.error('Error:', error));
+}
 

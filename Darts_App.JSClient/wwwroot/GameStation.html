@@ -17,9 +17,9 @@
         <div>
             <label for="checkout-method">Checkout Method:</label>
             <select id="checkout-method" name="checkout-method">
+                <option value="straight">Straight Out</option>ű
                 <option value="double">Double Out</option>
                 <option value="master">Master Out</option>
-                <option value="straight">Straight Out</option>
             </select>
         </div>
         <div>
@@ -40,11 +40,16 @@
             <label for="sets">Sets:</label>
             <input type="number" id="sets" name="sets" min="1" max="10" value="1">
         </div>
+        <div> 
+            <button onclick="GetGameSessionInitDatas()">Start Game</button>
+        </div>
     </div>
 
     <div id="game-session" style="border: 1px solid black; width: 40%; float: left;">
         <!-- Game session information -->
         <label>3. resz</label>
+        <input type="text" id="throw">
+        <button onclick="ScoredPoints()">Dobas</button>
     </div>
 
 

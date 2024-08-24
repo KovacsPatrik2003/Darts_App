@@ -19,5 +19,7 @@ namespace Darts_App.Logic
         public event GameLogicDelegateStirng GetChek_out;
         public event OnGoingDelegate OngoingGamePoints;
         public event GameLogicDelegateWinner Winner;
+        public Task<int> pointsScored(int points = 0);
+        public int ScoredPoints { get; set; }
     }
 }

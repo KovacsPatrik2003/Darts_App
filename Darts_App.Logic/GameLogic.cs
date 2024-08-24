@@ -27,10 +27,12 @@ namespace Darts_App.Logic
         public event GameLogicDelegateStirng GetChek_out;
         public event OnGoingDelegate OngoingGamePoints;
         public event GameLogicDelegateWinner Winner;
+        public int ScoredPoints { get; set; }
         public GameLogic(IRepository<Game> repo, IRepository<PlayerGameConnection> connectionRepo)
         {
             this.repo = repo;
             this.connectionRepo = connectionRepo;
+            ScoredPoints = -10;
         }
 
         public void Create(Game item)
@@ -54,39 +56,40 @@ namespace Darts_App.Logic
         }
         public async Task<int> pointsScored(int points=0)
         {
+            
             return points;
         }
         public async void GameSession(List<Player> players, int setCount, int legCount, int startPoints, string checkOutMethod)
         {
             Game game = new Game();
-            this.Create(game);
+
             //create connections between the tables
             for (int k = 0; k < players.Count; k++)
             {
-                connectionRepo.Create(new PlayerGameConnection()
-                {
-                    GameId = game.Id,
-                    PlayerId = players[k].Id
-                });
+                //connectionRepo.Create(new PlayerGameConnection()
+                //{
+                //    GameId = game.Id,
+                //    PlayerId = players[k].Id
+                //});
                 game.Sets.Add(0);
                 game.Legs.Add(0);
             }
             //game session
 
             //get sets from clientúawait SendMessageAsync(webSocket, "RequestSets");
-            game.SetCount = (int)GetSets?.Invoke();
+            game.SetCount = setCount;
 
             //get legs from client
-            game.LegCount = (int)GetLegs?.Invoke();
+            game.LegCount = legCount;
 
 
             //get point from client
-            game.StartPoints = GetStartPoint?.Invoke();
+            game.StartPoints = startPoints;
             int? fixpoints = game.StartPoints;
 
 
             //get cheout mode from client
-            game.Check_Out = GetChek_out?.Invoke();
+            game.Check_Out = checkOutMethod;
 
             //game session start
             bool finish = false;
@@ -114,9 +117,11 @@ namespace Darts_App.Logic
                             for (int l = 0; l < 3; l++)
                             {
 
-                                //int notZeroResultCheck = (int)OngoingGamePoints?.Invoke(players[k], players, game);
-                                int notZeroResultCheck = await pointsScored();
-                                int feedback = Pointdecrementation(notZeroResultCheck, game.Check_Out, players[k].CurrentPoints);
+                                // Felhasználói pontszám lekérése a SignalR-en keresztül
+                                int throwedPoint = 0;
+
+
+                                int feedback = Pointdecrementation(throwedPoint, game.Check_Out, players[k].CurrentPoints);
                                 if (feedback == -1)
                                 {
                                     players[k].CurrentPoints = currentpoints;
@@ -167,7 +172,11 @@ namespace Darts_App.Logic
 
         private int Pointdecrementation(int point, string chekoutmethod, int actualpoint)
         {
-            if (chekoutmethod == "Straight Out")
+            if (point < 0)
+            {
+                throw new Exception();
+            }
+            if (chekoutmethod == "straight")
             {
                 if (actualpoint < point)
                 {
@@ -179,7 +188,7 @@ namespace Darts_App.Logic
                     return point;
                 }
             }
-            else if (chekoutmethod == "Double Out")
+            else if (chekoutmethod == "double")
             {
                 if (actualpoint < point)
                 {

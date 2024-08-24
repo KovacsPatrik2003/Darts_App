@@ -1,5 +1,5 @@
 ﻿let player = [];
-window.location.href = 'GameStation.html';
+
 async function LogIn() {
     let userName = document.getElementById("userName").value;
     let password = document.getElementById("userPassword").value;

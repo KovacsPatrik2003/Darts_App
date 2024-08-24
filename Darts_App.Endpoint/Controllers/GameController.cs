@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -62,68 +63,20 @@ namespace Darts_App.Endpoint.Controllers
         public void StartGameSession([FromBody] GameSessionRequest request, int setCount, int legCount, int startPoints, string checkOutMethod)
         {
             var players = request.Players;
-            ;
             this.logic.GameSession(players, setCount, legCount, startPoints, checkOutMethod);
             this.hub.Clients.All.SendAsync("GameSessionStarted");
         }
 
-        [HttpGet("sets/{setsCount}")]
-        public int GetSets(int setsCount)
-        {
-            bool Mock = true;
-            int helper = 1;
-            if (Mock)
-            {
-                return helper;
-            }
-            return setsCount;
-        }
-        [HttpGet("legs/{legsCount}")]
-        public int GetLegs(int legsCount)
-        {
-            bool Mock = true;
-            int helper = 1;
-            if (Mock)
-            {
-                return helper;
-            }
-            return legsCount;
-        }
-        [HttpGet("startpoints/{startPoints}")]
-        public int GetStartPoint(int startPoints)
-        {
-            bool Mock = true;
-            int helper = 1;
-            if (Mock)
-            {
-                return helper;
-            }
-            return startPoints;
-        }
-        [HttpGet("checkout/{checkOut}")]
-        public string GetChek_out(string checkOut)
-        {
-            bool Mock = true;
-            string helper = "Straight Out";
-            if (Mock)
-            {
-                return helper;
-            }
-            return checkOut;
-        }
         [HttpGet("points/{points}")]
-        public int ThrowedPoints(int points)
+        public async Task ThrowedPoints(int points)
         {
-            bool Mock = true;
-            int helper = 1;
-            if (Mock)
-            {
-                return helper;
-            }
-
-            return points;
+            ;
+            
+            this.logic.ScoredPoints = points;
+            await this.hub.Clients.All.SendAsync("ThrowHappend");
+            ;
+            return;
         }
-
 
     }
     public class GameSessionRequest

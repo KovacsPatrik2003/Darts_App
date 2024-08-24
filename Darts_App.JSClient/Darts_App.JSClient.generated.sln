@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Darts_App.JSClient", "Darts_App.JSClient.csproj", "{D515E415-6034-4673-9235-512C52422E6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Darts_App.JSClient", "Darts_App.JSClient.csproj", "{30A54192-397F-40FF-985D-E62ACB7A1BFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D515E415-6034-4673-9235-512C52422E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D515E415-6034-4673-9235-512C52422E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D515E415-6034-4673-9235-512C52422E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D515E415-6034-4673-9235-512C52422E6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30A54192-397F-40FF-985D-E62ACB7A1BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30A54192-397F-40FF-985D-E62ACB7A1BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30A54192-397F-40FF-985D-E62ACB7A1BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30A54192-397F-40FF-985D-E62ACB7A1BFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
