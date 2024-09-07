@@ -12,7 +12,7 @@ namespace Darts_App.Logic
         void Delete(int id);
         Game Read(int id);
         IQueryable<Game> ReadAll();
-        public void GameSession(List<Player> players, int setCount, int legCount, int startPoints, string checkOutMethod);
+        public Task GameSession(List<Player> players, int setCount, int legCount, int startPoints, string checkOutMethod);
         public event GameLogicDelegate GetSets;
         public event GameLogicDelegate GetLegs;
         public event GameLogicDelegate GetStartPoint;
@@ -20,6 +20,6 @@ namespace Darts_App.Logic
         public event OnGoingDelegate OngoingGamePoints;
         public event GameLogicDelegateWinner Winner;
         public Task<int> pointsScored(int points = 0);
-        public int ScoredPoints { get; set; }
+
     }
 }

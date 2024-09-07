@@ -12,37 +12,79 @@ getPlayers();
 
 
 
-setupSignalR();
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl("http://localhost:61231/hub")
+    .build();
 
-function setupSignalR() {
-    connection = new signalR.HubConnectionBuilder()
-        .withUrl("http://localhost:61231/hub")
-        .configureLogging(signalR.LogLevel.Information)
-        .build();
+// Amikor a backend kéri az adatot
+// connection.on("RequestData", async (message) => {
+//     console.log(message); // A backend üzenete
+//     let userData = prompt("Kérlek add meg az adatot:");
 
-    connection.on("GameSessionStarted", function (){
-        console.log("Game session started!");
-    });
+//     // Az adat elküldése a backendnek
+//     await connection.invoke("SendData", userData);
+// });
 
-    connection.on("ThrowHappend", function() {
-        console.log("Throw happened!");
-    });
+// Kapcsolat indítása
+connection.start().then(() => {
+    console.log("Kapcsolat létrejött");
+}).catch((err) => console.error(err));
+
+
+document.getElementById("sendDataButton").addEventListener("click", function () {
+    // Kérünk be egy adatot a felhasználótól
+    let userData = prompt("Kérlek, add meg az adatot, amit el szeretnél küldeni:");
     
-    connection.onclose(async () => {
-        await start();
-    });
-    start();
-}
-
-async function start() {
-    try {
-        await connection.start();
-        console.log("SignalR Connected.");
-    } catch (err) {
-        console.log(err);
-        setTimeout(start, 5000);
+    if (userData) {
+        // Adat küldése a SignalR szervernek
+        connection.invoke("SendData", userData)
+            .then(() => {
+                console.log("Adat elküldve:", userData);
+            })
+            .catch(err => console.error(err.toString()));
     }
-};
+});
+connection.on("DataReceived", function (message) {
+    console.log("Válasz a szervertől:", message);
+    alert("Válasz a szervertől: " + message);
+});
+
+//kovi code-ja
+// setupSignalR();
+
+// function setupSignalR() {
+//     connection = new signalR.HubConnectionBuilder()
+//         .withUrl("http://localhost:61231/hub")
+//         .configureLogging(signalR.LogLevel.Information)
+//         .build();
+
+//     connection.on("GameSessionStarted", function (){
+//         console.log("Game session started!");
+//     });
+
+//     connection.on("ThrowHappend", function() {
+//         console.log("Throw happened!");
+//     });
+    
+//     connection.onclose(async () => {
+//         await start();
+//     });
+//     start();
+// }
+
+// async function start() {
+//     try {
+//         await connection.start();
+//         console.log("SignalR Connected.");
+//     } catch (err) {
+//         console.log(err);
+//         setTimeout(start, 5000);
+//     }
+// };
+
+
+
+
 
 
 
@@ -113,6 +155,7 @@ const gameSessionRequest = {
 };
 
 async function StartGame() {
+    console.log('Gomb megnyomva');
     await fetch('http://localhost:61231/api/Game/start-game-session/'+setCount+'/'+legCount+'/'+startPoint+'/'+checkOutMethod , {
         method: 'POST',
         headers: {
@@ -154,4 +197,7 @@ async function ScoredPoints(){
     })
     .catch(error => console.error('Error:', error));
 }
+
+
+
 

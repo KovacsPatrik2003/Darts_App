@@ -1,5 +1,7 @@
-﻿using Darts_App.Models;
+﻿using Darts_App.Endpoint.Services;
+using Darts_App.Models;
 using Darts_App.Repository;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,13 +12,13 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
 namespace Darts_App.Logic
 {
     public delegate int GameLogicDelegate();
     public delegate int OnGoingDelegate(Player p, List<Player> L, Game g);
     public delegate string GameLogicDelegateStirng();
     public delegate void GameLogicDelegateWinner(int winnerId);
+    public delegate Task<int> Dobas(int p);
     public class GameLogic : IGameLogic
     {
         IRepository<Game> repo;
@@ -27,12 +29,17 @@ namespace Darts_App.Logic
         public event GameLogicDelegateStirng GetChek_out;
         public event OnGoingDelegate OngoingGamePoints;
         public event GameLogicDelegateWinner Winner;
-        public int ScoredPoints { get; set; }
-        public GameLogic(IRepository<Game> repo, IRepository<PlayerGameConnection> connectionRepo)
+
+
+        private readonly IHubContext<SignalRHub> _hubContext;
+        private string _receivedData;
+
+
+        public GameLogic(IRepository<Game> repo, IRepository<PlayerGameConnection> connectionRepo, IHubContext<SignalRHub> hubContext)
         {
             this.repo = repo;
             this.connectionRepo = connectionRepo;
-            ScoredPoints = -10;
+            _hubContext = hubContext;
         }
 
         public void Create(Game item)
@@ -59,7 +66,8 @@ namespace Darts_App.Logic
             
             return points;
         }
-        public async void GameSession(List<Player> players, int setCount, int legCount, int startPoints, string checkOutMethod)
+        
+        public async Task GameSession(List<Player> players, int setCount, int legCount, int startPoints, string checkOutMethod)
         {
             Game game = new Game();
 
@@ -114,13 +122,16 @@ namespace Darts_App.Logic
                         for (int k = 0; k < players.Count; k++)
                         {
                             int currentpoints = players[k].CurrentPoints;
+                            int debugValue = 0;
                             for (int l = 0; l < 3; l++)
                             {
 
                                 // Felhasználói pontszám lekérése a SignalR-en keresztül
-                                int throwedPoint = 0;
-
-
+                                ;
+                                var data = await WaitForDataFromClient();
+                                int throwedPoint = int.Parse(data);
+                                //GetPoints?.Invoke();
+                                debugValue += throwedPoint;
                                 int feedback = Pointdecrementation(throwedPoint, game.Check_Out, players[k].CurrentPoints);
                                 if (feedback == -1)
                                 {
@@ -138,6 +149,7 @@ namespace Darts_App.Logic
                                     break;
                                 }
                             }
+                            ;
                             if (finish)
                             {
                                 break;
@@ -218,6 +230,18 @@ namespace Darts_App.Logic
             }
             //something else
             return -404;
+        }
+        private Task<string> WaitForDataFromClient()
+        {
+            // Új TaskCompletionSource létrehozása
+
+            SignalRHub.tcs = new TaskCompletionSource<string>();
+
+            // Esemény a kliens adatának kérésére
+            _hubContext.Clients.All.SendAsync("RequestData", "Kérlek küldj adatot!");
+
+            // Várakozás amíg az adat megérkezik
+            return SignalRHub.tcs.Task;
         }
     } 
 }
