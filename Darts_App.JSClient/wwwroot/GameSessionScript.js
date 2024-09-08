@@ -1,6 +1,6 @@
 ﻿let playerGameConnections = [];
 let ownGames = [];
-let players = [];
+let players=[];
 let userName = '';
 
 let setCount=0;
@@ -11,19 +11,9 @@ let scoredPoint=0;
 getPlayers();
 
 
-
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("http://localhost:61231/hub")
     .build();
-
-// Amikor a backend kéri az adatot
-// connection.on("RequestData", async (message) => {
-//     console.log(message); // A backend üzenete
-//     let userData = prompt("Kérlek add meg az adatot:");
-
-//     // Az adat elküldése a backendnek
-//     await connection.invoke("SendData", userData);
-// });
 
 // Kapcsolat indítása
 connection.start().then(() => {
@@ -84,12 +74,6 @@ connection.on("DataReceived", function (message) {
 
 
 
-
-
-
-
-
-
 async function getData() {
     
     await fetch("http://localhost:61231/api/PlayerGameConnection")
@@ -116,6 +100,7 @@ async function getPlayers() {
         .then(y => {
             players = y;
             console.log(players);
+            PlayersSelecter(players);
         });
 }
 
@@ -131,31 +116,13 @@ function displayOldGames() {
 
 
 
-const frombodyPlayers = [
-    {
-        "Id": 1,
-        "Name": "Player1",
-        "Password": "password1",
-        "GamesWinCount": 5,
-        "GamesLoseCount": 3,
-        "CurrentPoints": 10
-    },
-    {
-        "Id": 2,
-        "Name": "Player2",
-        "Password": "password2",
-        "GamesWinCount": 2,
-        "GamesLoseCount": 6,
-        "CurrentPoints": 8
-    }
-];
+let frombodyPlayers = [];
 
 const gameSessionRequest = {
     Players: frombodyPlayers
 };
 
 async function StartGame() {
-    console.log('Gomb megnyomva');
     await fetch('http://localhost:61231/api/Game/start-game-session/'+setCount+'/'+legCount+'/'+startPoint+'/'+checkOutMethod , {
         method: 'POST',
         headers: {
@@ -199,5 +166,27 @@ async function ScoredPoints(){
 }
 
 
+function PlayersSelecter(playersFromServer){
+    let selectHtml = '<label for="players-select">Játékosok:</label>' +
+    '<select id="players-select-dropdown" name="jatekosok">';
 
+    playersFromServer.forEach(player => {
+        selectHtml += '<option value="'+player.id+'">' + player.name + '</option>';
+    });
+
+    selectHtml += '</select>';
+    selectHtml+='<button onclick="AddPlayerToGame()">Add player</button>'
+    // Állítsd be az innerHTML-t egyszer
+    document.getElementById('players-select').innerHTML = selectHtml;
+}
+
+function AddPlayerToGame(){
+    let p=document.getElementById('players-select-dropdown').value;
+    if(frombodyPlayers.includes(p)){
+        alert("Ezt a játékost már kiválasztottad.");
+        throw new Error("Ezt a játékost már kiválasztottad.");
+    }
+    frombodyPlayers.push(p);
+    console.log('jatekos: ',frombodyPlayers);
+}
 
