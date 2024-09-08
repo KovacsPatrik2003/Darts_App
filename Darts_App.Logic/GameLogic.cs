@@ -127,10 +127,8 @@ namespace Darts_App.Logic
                             {
 
                                 // Felhasználói pontszám lekérése a SignalR-en keresztül
-                                ;
                                 var data = await WaitForDataFromClient();
                                 int throwedPoint = int.Parse(data);
-                                //GetPoints?.Invoke();
                                 debugValue += throwedPoint;
                                 int feedback = Pointdecrementation(throwedPoint, game.Check_Out, players[k].CurrentPoints);
                                 if (feedback == -1)

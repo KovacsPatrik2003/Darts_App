@@ -24,13 +24,23 @@ namespace Darts_App.Endpoint.Services
         public static TaskCompletionSource<string> tcs;
         public async Task SendData(string data)
         {
-            // A beérkező adat beállítása a tcs-be
-            if (tcs != null && !tcs.Task.IsCompleted)
+            try
             {
-                tcs.SetResult(data);
+                // A beérkező adat beállítása a tcs-be
+                if (tcs != null && !tcs.Task.IsCompleted)
+                {
+                    tcs.SetResult(data);
+                }
+
+                await Clients.Caller.SendAsync("DataReceived", data);
             }
-            
-            await Clients.Caller.SendAsync("DataReceived", data);
+            catch (Exception e)
+            {
+                // Hiba logolása
+                Console.WriteLine("Hiba történt a SendData metódusban: " + e.Message);
+                throw;  // Dobd tovább a kivételt, hogy a SignalR megfelelően kezelje
+            }
+           
         }
     }
 }

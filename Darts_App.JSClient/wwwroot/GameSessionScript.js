@@ -2,7 +2,7 @@
 let ownGames = [];
 let players=[];
 let userName = '';
-
+let frombodyPlayers = [];
 let setCount=0;
 let legCount=0;
 let startPoint=0;
@@ -23,7 +23,7 @@ connection.start().then(() => {
 
 document.getElementById("sendDataButton").addEventListener("click", function () {
     // Kérünk be egy adatot a felhasználótól
-    let userData = prompt("Kérlek, add meg az adatot, amit el szeretnél küldeni:");
+    let userData = '1';
     
     if (userData) {
         // Adat küldése a SignalR szervernek
@@ -116,13 +116,14 @@ function displayOldGames() {
 
 
 
-let frombodyPlayers = [];
+
 
 const gameSessionRequest = {
     Players: frombodyPlayers
 };
 
 async function StartGame() {
+    Game();
     await fetch('http://localhost:61231/api/Game/start-game-session/'+setCount+'/'+legCount+'/'+startPoint+'/'+checkOutMethod , {
         method: 'POST',
         headers: {
@@ -133,6 +134,8 @@ async function StartGame() {
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.error('Error:', error));
+
+    
 }
 
 
@@ -207,5 +210,34 @@ function ShowActualPlayers(selectedPlayers){
     selectedPlayers.forEach(p => {
         document.getElementById("selected-players").innerHTML += "<tr><td>"+players.find(x=>x.id==p).name+' ' +'<button onclick="RemovePlayerFromTheGame('+p+')">Remove player</button></br></td></tr>'
     });
+}
+
+
+function Game(){
+    let gameHtml = '';
+    
+    for (let i = 0; i < 22; i++) {
+        if(i==21){
+            gameHtml+='<button onclick="GetPoints('+25+')">'+25+'</button>';
+        }
+        else{
+            gameHtml+='<button onclick="GetPoints('+i+')">'+i+'</button>';
+        }
+        
+      }
+      document.getElementById('game-session').innerHTML+=gameHtml;
+}
+
+function GetPoints(point){
+    console.log(point);
+    // Adat küldése a SignalR szervernek
+    if(point){
+        connection.invoke("SendData", point.toString())
+        .then(() => {
+            console.log("Adat elküldve:", point);
+        })
+        .catch(err => console.error(err.toString()));
+    }
+    
 }
 

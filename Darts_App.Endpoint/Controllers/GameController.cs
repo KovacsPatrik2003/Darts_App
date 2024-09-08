@@ -67,14 +67,15 @@ namespace Darts_App.Endpoint.Controllers
         public async Task<IActionResult> StartGameSession([FromBody] GameSessionRequest request, int setCount, int legCount, int startPoints, string checkOutMethod)
         {
             var players = playerLogic.ReadAll().Where(x=>request.Players.Contains(x.Id)).ToList();
-            Task gameSessionTask = new Task(async() =>
+            Task gameSessionTask = new Task(async () =>
             {
                 await this.logic.GameSession(players, setCount, legCount, startPoints, checkOutMethod);
             });
-
+            
             gameSessionTask.Start();
-           
-            return Ok("Ciklus futtatása elkezdődött");
+            char macskakorom = '"';
+            string respond = "{ " + macskakorom + "text" + macskakorom + ":" + macskakorom + "Game Session has started" + macskakorom + "}";
+            return Ok(respond);
         }
 
        
