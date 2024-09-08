@@ -188,5 +188,20 @@ function AddPlayerToGame(){
     }
     frombodyPlayers.push(p);
     console.log('jatekos: ',frombodyPlayers);
+    ShowActualPlayers(frombodyPlayers);
+
+}
+
+function RemovePlayerFromTheGame(id){
+    frombodyPlayers.pop(id);
+    ShowActualPlayers(frombodyPlayers);
+}
+
+function ShowActualPlayers(selectedPlayers){
+    document.getElementById("selected-players").innerHTML='';
+
+    selectedPlayers.forEach(p => {
+        document.getElementById("selected-players").innerHTML += "<tr><td>"+players.find(x=>x.id==p).name+' ' +'<button onclick="RemovePlayerFromTheGame('+p+')">Remove player</button></br></td></tr>'
+    });
 }
 
