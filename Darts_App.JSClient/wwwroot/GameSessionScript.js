@@ -193,13 +193,17 @@ function AddPlayerToGame(){
 }
 
 function RemovePlayerFromTheGame(id){
-    frombodyPlayers.pop(id);
+    const index = frombodyPlayers.findIndex(player => player == id);
+    console.log(index);
+    if (index !== -1) {
+        frombodyPlayers.splice(index, 1);
+    }
     ShowActualPlayers(frombodyPlayers);
 }
 
 function ShowActualPlayers(selectedPlayers){
     document.getElementById("selected-players").innerHTML='';
-
+    document.getElementById("selected-players").innerHTML+='<label>Kiválasztott játékosok: </br></label>';
     selectedPlayers.forEach(p => {
         document.getElementById("selected-players").innerHTML += "<tr><td>"+players.find(x=>x.id==p).name+' ' +'<button onclick="RemovePlayerFromTheGame('+p+')">Remove player</button></br></td></tr>'
     });
